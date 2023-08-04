@@ -38,6 +38,6 @@ jobs:
           
       - name: Create Tag & Release & Upload Zip Artifact To Release
         run: |
-          gh release create "${{ env.newTagName }}" --title "${{ env.newTagName }}" --notes "Version ${{ env.newTagName }}" --latest --target "${{ github.sha }}"
-          gh release upload ${{env.newTagName}} ./extension.zip --clobber
+          gh release create "v${{ env.newTagName }}" --title "v${{ env.newTagName }}" --notes "Version ${{ env.newTagName }}" --latest --target "${{ github.sha }}"
+          gh release upload "v${{env.newTagName}}" ./extension.zip --clobber
 ```

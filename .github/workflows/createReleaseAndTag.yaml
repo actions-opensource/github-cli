@@ -1,0 +1,27 @@
+name: Create Tag And Release
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '*.md'
+      - 'LICENSE'
+jobs:
+  createTagAndRelease:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    name: Create Tag And Release
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        
+      - name: Set Tag Name
+        uses: actions-opensource/get-next-tag@v1
+               
+      - name: Install GitHub CLI
+        uses: actions-opensource/github-cli@v1
+          
+      - name: Create Tag & Release & Upload Zip Artifact To Release
+        run: |
+          gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
+          gh release create "v${{ env.newTagName }}" --title "v${{ env.newTagName }}" --notes "Version ${{ env.newTagName }}" --latest --target "${{ github.sha }}"
